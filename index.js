@@ -6,9 +6,8 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-// Utiliser directement /tmp pour le stockage temporaire
-const uploadPath = '/tmp';
-const upload = multer({ dest: uploadPath });
+// Configurer Multer pour utiliser le répertoire /tmp
+const upload = multer({ dest: '/tmp' });
 
 // Route pour le téléchargement des images
 app.post('/upload', upload.single('photo'), (req, res) => {
@@ -21,7 +20,7 @@ app.post('/upload', upload.single('photo'), (req, res) => {
 
 // Route pour lister toutes les images téléchargées
 app.get('/list-images', (req, res) => {
-    fs.readdir(uploadPath, function (err, files) {
+    fs.readdir('/tmp', function (err, files) {
         if (err) {
             res.status(500).send('Unable to scan directory: ' + err);
             return;
@@ -36,7 +35,7 @@ app.get('/list-images', (req, res) => {
 // Route pour récupérer une image spécifique
 app.get('/image/:filename', (req, res) => {
     const filename = req.params.filename;
-    const filePath = path.join(uploadPath, filename);
+    const filePath = path.join('/tmp', filename);
 
     fs.access(filePath, fs.constants.F_OK, (err) => {
         if (err) {
