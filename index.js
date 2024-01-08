@@ -3,10 +3,11 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
-const uploadPath = path.join(__dirname, '/tmp/images/');
+const uploadPath = path.join('/tmp', 'images');
 if (!fs.existsSync(uploadPath)){
     fs.mkdirSync(uploadPath, { recursive: true });
 }
+
 
 const upload = multer({ dest: uploadPath }); // Assurez-vous que ce dossier est accessible
 
