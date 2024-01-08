@@ -13,7 +13,13 @@ app.post('/upload', upload.single('photo'), (req, res) => {
 });
 
 app.get('/list-images', (req, res) => {
+
+
     const directoryPath = path.join(__dirname, '/tmp/images/');
+
+    if (!fs.existsSync(directoryPath)) {
+        return res.status(404).send('No images directory found.');
+    }
 
     fs.readdir(directoryPath, function (err, files) {
         if (err) {
