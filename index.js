@@ -20,7 +20,6 @@ const file = req.file;
     }
     res.send('Image téléchargée avec succès.');
 
-
 // Route pour lister toutes les images téléchargées
 app.get('/list-images', (req, res) => {
     const directoryPath = path.join(__dirname, '/tmp/');
