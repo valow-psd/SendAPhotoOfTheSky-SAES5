@@ -1,6 +1,13 @@
 const express = require('express');
 const multer = require('multer');
-const upload = multer({ dest: '/tmp/images/' }); // Assurez-vous que ce dossier est accessible
+
+const uploadPath = path.join(__dirname, '/tmp/images/');
+if (!fs.existsSync(uploadPath)){
+    fs.mkdirSync(uploadPath, { recursive: true });
+}
+
+
+const upload = multer({ dest: uploadPath }); // Assurez-vous que ce dossier est accessible
 const fs = require('fs');
 const path = require('path');
 
@@ -8,12 +15,13 @@ const app = express();
 const port = 3000;
 
 // Route pour le téléchargement des images
-app.post('/upload', upload.single('photo'), (req, res) => {
-    console.log(req.file);
-    // Renvoyer le chemin complet du fichier
-    const fullPath = path.join(__dirname, '/tmp/images/', req.file.filename);
-    res.send(`Image téléchargée avec succès. Chemin du fichier: ${fullPath}`);
-});
+const file = req.file;
+    if (!file) {
+        const error = new Error('Please upload a file');
+        error.httpStatusCode = 400;
+        return next(error);
+    }
+    res.send('Image téléchargée avec succès.');
 
 
 // Route pour lister toutes les images téléchargées
