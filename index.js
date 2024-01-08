@@ -10,8 +10,11 @@ const port = 3000;
 // Route pour le téléchargement des images
 app.post('/upload', upload.single('photo'), (req, res) => {
     console.log(req.file);
-    res.send(`Image téléchargée avec succès: ${req.file.filename}`);
+    // Renvoyer le chemin complet du fichier
+    const fullPath = path.join(__dirname, '/tmp/images/', req.file.filename);
+    res.send(`Image téléchargée avec succès. Chemin du fichier: ${fullPath}`);
 });
+
 
 // Route pour lister toutes les images téléchargées
 app.get('/list-images', (req, res) => {
