@@ -3,13 +3,13 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
+// Utiliser le répertoire /tmp pour le stockage temporaire
 const uploadPath = path.join('/tmp', 'images');
 if (!fs.existsSync(uploadPath)){
     fs.mkdirSync(uploadPath, { recursive: true });
 }
 
-
-const upload = multer({ dest: uploadPath }); // Assurez-vous que ce dossier est accessible
+const upload = multer({ dest: uploadPath });
 
 const app = express();
 const port = 3000;
