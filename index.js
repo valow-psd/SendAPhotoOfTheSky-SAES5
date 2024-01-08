@@ -4,12 +4,9 @@ const fs = require('fs');
 const path = require('path');
 
 // Utiliser le répertoire /tmp pour le stockage temporaire
-const uploadPath = path.join('/tmp', 'images');
-if (!fs.existsSync(uploadPath)){
-    fs.mkdirSync(uploadPath, { recursive: true });
-}
-
+const uploadPath = '/tmp';
 const upload = multer({ dest: uploadPath });
+
 
 const app = express();
 const port = 3000;
@@ -26,7 +23,7 @@ const file = req.file;
 
 // Route pour lister toutes les images téléchargées
 app.get('/list-images', (req, res) => {
-    const directoryPath = path.join(__dirname, '/tmp/images/');
+    const directoryPath = path.join(__dirname, '/tmp/');
 
     fs.readdir(directoryPath, function (err, files) {
         if (err) {
@@ -43,7 +40,7 @@ app.get('/list-images', (req, res) => {
 // Route pour récupérer une image spécifique
 app.get('/image/:filename', (req, res) => {
     const filename = req.params.filename;
-    const filePath = path.join(__dirname, '/tmp/images/', filename);
+    const filePath = path.join(__dirname, '/tmp/', filename);
 
     fs.access(filePath, fs.constants.F_OK, (err) => {
         if (err) {
