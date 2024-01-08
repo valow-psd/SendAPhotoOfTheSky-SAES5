@@ -1,6 +1,6 @@
 const express = require('express');
-const multer  = require('multer');
-const upload = multer({ dest: './images/' });
+const multer = require('multer');
+const upload = multer({ dest: '/tmp/images/' });
 
 const app = express();
 const port = 3000;
