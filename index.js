@@ -3,20 +3,18 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
-// Utiliser le répertoire /tmp pour le stockage temporaire
-const uploadPath = '/tmp';
-const upload = multer({ dest: uploadPath });
-
 const app = express();
 const port = 3000;
 
+// Utiliser directement /tmp pour le stockage temporaire
+const uploadPath = '/tmp';
+const upload = multer({ dest: uploadPath });
+
 // Route pour le téléchargement des images
-app.post('/upload', upload.single('photo'), (req, res, next) => {
+app.post('/upload', upload.single('photo'), (req, res) => {
     const file = req.file;
     if (!file) {
-        const error = new Error('Please upload a file');
-        error.httpStatusCode = 400;
-        return next(error);
+        return res.status(400).send('Please upload a file');
     }
     res.send('Image téléchargée avec succès.');
 });
@@ -49,7 +47,6 @@ app.get('/image/:filename', (req, res) => {
     });
 });
 
-// Démarrage du serveur
 app.listen(port, () => {
     console.log(`Serveur en écoute sur le port ${port}`);
 });
