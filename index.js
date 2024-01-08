@@ -1,15 +1,14 @@
 const express = require('express');
 const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 
 const uploadPath = path.join(__dirname, '/tmp/images/');
 if (!fs.existsSync(uploadPath)){
     fs.mkdirSync(uploadPath, { recursive: true });
 }
 
-
 const upload = multer({ dest: uploadPath }); // Assurez-vous que ce dossier est accessible
-const fs = require('fs');
-const path = require('path');
 
 const app = express();
 const port = 3000;
